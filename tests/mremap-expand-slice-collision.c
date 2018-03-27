@@ -38,7 +38,10 @@ void init_slice_boundary(int fd)
 	unsigned long slice_size;
 	void *p, *heap;
 	int i, rc;
-#if defined(__LP64__) && !defined(__aarch64__)
+#if defined(__riscv64__)
+	slice_boundary = 0x1000000000;
+	slice_size = 0x1000000000;
+#elif defined(__LP64__) && !defined(__aarch64__)
 	/* powerpc: 1TB slices starting at 1 TB */
 	slice_boundary = 0x10000000000;
 	slice_size = 0x10000000000;
@@ -47,6 +50,8 @@ void init_slice_boundary(int fd)
 	slice_boundary = 0x00000000;
 	slice_size = 0x10000000;
 #endif
+	slice_boundary = 0x100000000;
+	slice_size = 0x100000000;
 
 	/* dummy malloc so we know where is heap */
 	heap = malloc(1);
