@@ -34,6 +34,9 @@ HELPER_LIBS = libheapshrink.so
 BADTOOLCHAIN = bad-toolchain.sh
 
 CFLAGS = -O2 -Wall -g
+ifeq ($(ARCH),riscv64)
+	CFLAGS += -D__riscv64__
+endif
 CPPFLAGS = -I..
 STATIC_LIBHUGE = -Wl,--whole-archive -lhugetlbfs -Wl,--no-whole-archive
 STATIC_LDLIBS = -Wl,--no-as-needed -lpthread
